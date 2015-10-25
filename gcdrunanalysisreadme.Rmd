@@ -1,0 +1,37 @@
+# Instructions: Please refer to the Codebook for descriptions of the final dataset and list of final variables.
+## Source the gcdrunanalysis script to run the function called "createtidydata"; 
+## the argument for this function is the directory in which your project files are saved.
+
+# Preliminary Steps Taken
+## Downloaded zipped files and extract.
+## Loaded Data.Table and DPLYR packages.
+  
+## Step 1
+### To "merge" I used cbind to bind the activity and subject columns to the left of the primary data measurements
+### for both training and testing sets, separately.  Training set then yielded 7352 obs. of 563 variables, and the
+### testing set yielded 2947 obs. of 563 variables. I then "merged" both with rbind to create a data set of 10299
+### observations of 563 variables.
+
+## Step 4 (in place of Step 2) because it made it easier for me to subset by variables in Step 2
+### I read the list of features into a character vector, and combined with "Subject" and "Activity".  I then
+### assigned to the column names with setnames.
+
+## Step 2
+### Using the grep and subset commands and the string "mean", I selected which variable column indices to keep.  
+### This gave a data set of 10299 obs. of 81 variables which I then finetuned to leave out instances of "meanFreq".
+### The resulting dataset now had 10299 obs. of 68 variables.
+
+## Step 3 
+### I used for and if loop constructions to assign the 6 types of activities (Walking, Walking Upstairs, Walking 
+### Downstairs, Sitting, Standing, Laying) as character strings to the appropriate 1:6 integers in that column. I
+### used a series of gsub commands to reduce the variable names to meaningful, but workable lengths. (e.g. tBodyACC 
+### became tBA, tGravityAcc became tGA, etc.) and kept track through preparing the codebook.  Note: I also had to 
+### follow each separate gsub command since so many of the acronyms were similar (e.g. BodyAccMag transformed into 
+### tBAMag with early gsub command, and so would have to adjust coding to change to tBAM for a consistent nomenclature ### system.  Prior to "tidying" in Step 5, I saved this result with write.table to my working directory to ensure it ### had been properly prepared.
+
+## Step 5 
+### I started with a fresh environment and read in the table just saved to my working directory.  I used the group_by
+### command to group first by Activity and then by Subject.  This seemed more meaningful to look at the data by 
+### activity and note patterns between more strenuous activity vs. sedentary activity.  The population sample also 
+### seemed low, and wasn't assured much meaning by looking first at the individual subjects.  Then I did a summarize ### for each variable measurement.  The resulting data set has 180 observations of 68 variables.
+
